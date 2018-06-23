@@ -567,8 +567,6 @@ double CMFCApplication6Dlg::calc()
 			f2xm1
 			fadd
 			fscale
-			fxch st(1)
-			fstp st
 			fstp res
 		}
 		break;
