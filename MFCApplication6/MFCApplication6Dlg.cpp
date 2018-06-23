@@ -547,11 +547,15 @@ double CMFCApplication6Dlg::calc()
 		}
 		break;
 	case '%':
-		/*
+		// res = fval1 % fval2
+		// Inline assembly
+		// fprem saves remainder to st(0)
 		__asm{
-
+			fld fval2
+			fld fval1
+			fprem
+			fstp res
 		}
-		*/
 		break;
 	case '^':
 		// res = fval1 ^ fval2
@@ -631,7 +635,7 @@ void CMFCApplication6Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	}
 	if (nIDCtl == IDC_BUTTON_MOD)		//MOD
 	{
-		setBtnColor(&dc, rect, red);
+		setBtnColor(&dc, rect, green);	//구현 완료 : green
 	}
 	if (nIDCtl == IDC_BUTTON_ROOT)		//제곱근
 	{
