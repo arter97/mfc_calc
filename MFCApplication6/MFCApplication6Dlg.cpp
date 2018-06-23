@@ -285,6 +285,8 @@ void CMFCApplication6Dlg::OnBnClickedButtonC()
 	eflag = true;
 	dflag = false;
 	UpdateData(false);
+
+	// TODO: Clear parenthesis operation properly
 }
 
 // 1글자 지우기
@@ -306,36 +308,57 @@ void CMFCApplication6Dlg::OnBnClickedButtonDel()
          이하 어셈블리어 구현 필수
 ************************************************/
 
+// Temporal storage for each parenthesis
+#define PARENTHESIS 100 // Total of 100 parentheses allowed
+CString p_temp[PARENTHESIS];
+CString p_op[PARENTHESIS];
+// Current parenthesis index
+int parenthesis = 0;
+
 //왼쪽 괄호
 void CMFCApplication6Dlg::OnBnClickedButtonLp()
 {
-	if (eflag == true)
-		m_input = "";
-	eflag = false;
-	m_input.AppendChar('(');
-	/*
-	__asm{
+	// Back up current operation for restoration
+	p_temp[parenthesis] = m_temp;
+	p_op[parenthesis] = m_op;
 
-
+	// Wipe current operation for new parenthesis equation
+	m_temp = "";
+	m_op = "";
+	m_input = "";
+	eflag = true;
+	dflag = false;
+	
+	// Increment parenthesis
+	__asm {
+		mov eax, parenthesis
+		inc eax
+		mov parenthesis, eax
 	}
-	*/
+
 	UpdateData(false);
 }
 
 //오른쪽 괄호
 void CMFCApplication6Dlg::OnBnClickedButtonRp()
 {
-	if (eflag == true)
-		m_input = "";
-	eflag = false;
-	m_input.AppendChar(')');
+	// Simulate '=' button press and get results
+	OnBnClickedButtonEqu();
 
-	/*
-	__asm{
-
-
+	// Decrement parenthesis
+	__asm {
+		mov eax, parenthesis
+		dec eax
+		mov parenthesis, eax
 	}
-	*/
+
+	// Restore operation before parenthesis was entered
+	m_temp = p_temp[parenthesis];
+	m_op = p_op[parenthesis];
+
+	eflag = true;
+	dflag = false;
+	
 	UpdateData(false);
 }
 
@@ -652,11 +675,11 @@ void CMFCApplication6Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	}
 	if (nIDCtl == IDC_BUTTON_LP)		//왼쪽괄호
 	{
-		setBtnColor(&dc, rect, red);
+		setBtnColor(&dc, rect, green);	//구현 완료 : green
 	}
 	if (nIDCtl == IDC_BUTTON_RP)		//오른쪽괄호
 	{
-		setBtnColor(&dc, rect, red);
+		setBtnColor(&dc, rect, green);	//구현 완료 : green
 	}
 	
 	UINT state = lpDrawItemStruct->itemState;  //This defines the state of the Push button either pressed or not. 
