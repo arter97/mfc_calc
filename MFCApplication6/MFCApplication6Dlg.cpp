@@ -376,10 +376,15 @@ void CMFCApplication6Dlg::OnBnClickedButtonSqu()
 	double res = 0;				//출력할 결과
 	
 	/*
+	 * A simple self multiplication performs better
+	 * than performing pow()-like operations
+	 */
 	__asm{
-
+		fld fval
+		fld fval
+		fmul
+		fstp res
 	}
-	*/
 	
 	char rval[100];
 	sprintf(rval, "%lf", res);
@@ -624,7 +629,7 @@ void CMFCApplication6Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	}
 	if (nIDCtl == IDC_BUTTON_SQU)		//2제곱
 	{
-		setBtnColor(&dc, rect, red);
+		setBtnColor(&dc, rect, green);	//구현 완료 : green
 	}
 	if (nIDCtl == IDC_BUTTON_POW)		//n제곱
 	{
