@@ -336,6 +336,11 @@ void CMFCApplication6Dlg::OnBnClickedButtonLp()
 		mov parenthesis, eax
 	}
 
+	// Show the users how many parenthesis equations there are
+	CString info;
+	info.Format(_T("%d remaining parenthesis"), parenthesis);
+	SetDlgItemText(IDC_STATIC, info);
+
 	UpdateData(false);
 }
 
@@ -351,6 +356,15 @@ void CMFCApplication6Dlg::OnBnClickedButtonRp()
 		dec eax
 		mov parenthesis, eax
 	}
+
+	// Show the users how many parenthesis equations there are
+	CString info;
+	if (parenthesis == 0) {
+		info = "";
+	} else {
+		info.Format(_T("%d remaining parenthesis"), parenthesis);
+	}
+	SetDlgItemText(IDC_STATIC, info);
 
 	// Restore operation before parenthesis was entered
 	m_temp = p_temp[parenthesis];
