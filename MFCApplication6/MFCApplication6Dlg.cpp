@@ -512,11 +512,14 @@ double CMFCApplication6Dlg::calc()
 		}
 		break;
 	case '-':
-		/*
+		// res = fval1 - fval2
+		// Inline assembly
 		__asm{
-
+			fld fval1
+			fld fval2
+			fsub
+			fstp res
 		}
-		*/
 		break;
 	case '*':
 		/*
@@ -595,7 +598,7 @@ void CMFCApplication6Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	}
 	if (nIDCtl == IDC_BUTTON_SUB)		//»¬¼À
 	{
-		setBtnColor(&dc, rect, red);	//¹Ì±¸Çö : red
+		setBtnColor(&dc, rect, green);	//±¸Çö ¿Ï·á : green
 	}
 	if (nIDCtl == IDC_BUTTON_MUL)		//°ö¼À
 	{
