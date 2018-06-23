@@ -554,11 +554,23 @@ double CMFCApplication6Dlg::calc()
 		*/
 		break;
 	case '^':
-		/*
-		__asm{
-
+		// res = fval1 ^ fval2
+		// Inline assembly
+		// This is done by calculating as "2^(y*log2(x))"
+		__asm {
+			fld fval2; power
+			fld fval1; X
+			fyl2x
+			fld1
+			fld st(1)
+			fprem
+			f2xm1
+			fadd
+			fscale
+			fxch st(1)
+			fstp st
+			fstp res
 		}
-		*/
 		break;
 	default:
 		res = fval2;
@@ -633,7 +645,7 @@ void CMFCApplication6Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	}
 	if (nIDCtl == IDC_BUTTON_POW)		//nÁ¦°ö
 	{
-		setBtnColor(&dc, rect, red);
+		setBtnColor(&dc, rect, green);	//±¸Çö ¿Ï·á : green
 	}
 	if (nIDCtl == IDC_BUTTON_LP)		//¿ÞÂÊ°ýÈ£
 	{
