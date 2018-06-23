@@ -351,11 +351,12 @@ void CMFCApplication6Dlg::OnBnClickedButtonRoot()
 	double fval = atof(vchar);	//입력된 실수
 	double res = 0;				//출력할 결과
 
-	/*
+	// Implementation via fsqrt
 	__asm{
-
+		fld fval
+		fsqrt
+		fstp res
 	}
-	*/
 
 	char rval[100];
 	sprintf(rval, "%lf", res);
@@ -639,7 +640,7 @@ void CMFCApplication6Dlg::OnDrawItem(int nIDCtl, LPDRAWITEMSTRUCT lpDrawItemStru
 	}
 	if (nIDCtl == IDC_BUTTON_ROOT)		//제곱근
 	{
-		setBtnColor(&dc, rect, red);
+		setBtnColor(&dc, rect, green);	//구현 완료 : green
 	}
 	if (nIDCtl == IDC_BUTTON_SQU)		//2제곱
 	{
