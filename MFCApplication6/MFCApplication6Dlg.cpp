@@ -276,6 +276,13 @@ void CMFCApplication6Dlg::OnBnClickedButtonDot()
 	UpdateData(false);
 }
 
+// Temporal storage for each parenthesis
+#define PARENTHESIS 100 // Total of 100 parentheses allowed
+CString p_temp[PARENTHESIS];
+CString p_op[PARENTHESIS];
+// Current parenthesis index
+int parenthesis = 0;
+
 // Clear
 void CMFCApplication6Dlg::OnBnClickedButtonC()
 {
@@ -284,9 +291,17 @@ void CMFCApplication6Dlg::OnBnClickedButtonC()
 	m_temp = "";
 	eflag = true;
 	dflag = false;
-	UpdateData(false);
 
-	// TODO: Clear parenthesis operation properly
+	// Clear parenthesis operations as well
+	// Cannot use memset() here as CString leaves unfreed memory
+	for (int i = 0; i < PARENTHESIS; i++) {
+		p_temp[i] = "";
+		p_op[i] = "";
+	}
+	parenthesis = 0;
+	SetDlgItemText(IDC_STATIC, _T(""));
+
+	UpdateData(false);
 }
 
 // 1글자 지우기
@@ -307,13 +322,6 @@ void CMFCApplication6Dlg::OnBnClickedButtonDel()
 /***********************************************
          이하 어셈블리어 구현 필수
 ************************************************/
-
-// Temporal storage for each parenthesis
-#define PARENTHESIS 100 // Total of 100 parentheses allowed
-CString p_temp[PARENTHESIS];
-CString p_op[PARENTHESIS];
-// Current parenthesis index
-int parenthesis = 0;
 
 //왼쪽 괄호
 void CMFCApplication6Dlg::OnBnClickedButtonLp()
