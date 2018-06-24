@@ -789,7 +789,13 @@ void CMFCApplication6Dlg::OnBnClickedButtonEqu()
 	double res = calc();
 	char rval[100];
 	sprintf(rval, "%lf", res);
+
 	m_input = rval;
+
+	// New value is written to m_input
+	// Remove trailing zeroes
+	m_input = m_input.TrimRight('0');
+	m_input = m_input.TrimRight('.');
 
 	m_temp = "";
 	m_op = "";
