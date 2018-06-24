@@ -118,6 +118,159 @@ BOOL CMFCApplication6Dlg::OnInitDialog()
 	return TRUE; 
 }
 
+bool shift_key = false;
+BOOL CMFCApplication6Dlg::PreTranslateMessage(MSG *pMsg) {
+	if (pMsg->message == WM_KEYUP) {
+		switch (pMsg->wParam) {
+		case VK_SHIFT:
+			shift_key = false;
+			break;
+		}
+	}
+	
+	if (pMsg->message == WM_KEYDOWN) {
+		switch (pMsg->wParam) {
+		case VK_SHIFT:
+			shift_key = true;
+			break;
+		/* OPERATORS */
+		case VK_BACK:
+			// <-
+			OnBnClickedButtonDel();
+			break;
+		case VK_OEM_PERIOD:
+		case VK_DECIMAL:
+			// .
+			OnBnClickedButtonDot();
+			break;
+		case VK_OEM_PLUS:
+			if (!shift_key)
+				break;
+		case VK_ADD:
+			// +
+			OnBnClickedButtonAdd();
+			break;
+		case VK_OEM_MINUS:
+		case VK_SUBTRACT:
+			// -
+			OnBnClickedButtonSub();
+			break;
+		case 0x38:
+			if (!shift_key) {
+				// 8
+				OnBnClickedButton8();
+				break;
+			}
+			// Intentional fall-through
+		case VK_MULTIPLY:
+			// *
+			OnBnClickedButtonMul();
+			break;
+		case VK_OEM_2:
+		case VK_DIVIDE:
+			// /
+			OnBnClickedButtonDiv();
+			break;
+		case VK_OEM_NEC_EQUAL:
+		case VK_RETURN:
+			// Enter
+			OnBnClickedButtonEqu();
+			return TRUE; // Do not process further
+			break;
+		case 0x43:
+			// C
+			OnBnClickedButtonC();
+			break;
+		case 0x36:
+			if (!shift_key) {
+				// 6
+				OnBnClickedButton6();
+				break;
+			}
+			// ^
+			OnBnClickedButtonPow();
+			break;
+		case 0x30:
+			if (!shift_key) {
+				// 0
+				OnBnClickedButton0();
+				break;
+			}
+			// )
+			OnBnClickedButtonRp();
+			break;
+		case 0x39:
+			if (!shift_key) {
+				// 9
+				OnBnClickedButton9();
+				break;
+			}
+			// (
+			OnBnClickedButtonLp();
+			break;
+		case 0x35:
+			if (!shift_key) {
+				// 5
+				OnBnClickedButton5();
+				break;
+			}
+			// %
+			OnBnClickedButtonMod();
+			break;
+
+		/* NUMBERS */
+		case VK_NUMPAD0:
+			// 0
+			OnBnClickedButton0();
+			break;
+		case VK_NUMPAD1:
+		case 0x31:
+			// 1
+			OnBnClickedButton1();
+			break;
+		case VK_NUMPAD2:
+		case 0x32:
+			// 2
+			OnBnClickedButton2();
+			break;
+		case VK_NUMPAD3:
+		case 0x33:
+			// 3
+			OnBnClickedButton3();
+			break;
+		case VK_NUMPAD4:
+		case 0x34:
+			// 4
+			OnBnClickedButton4();
+			break;
+		case VK_NUMPAD5:
+			// 5
+			OnBnClickedButton5();
+			break;
+		case VK_NUMPAD6:
+			// 6
+			OnBnClickedButton6();
+			break;
+		case VK_NUMPAD7:
+		case 0x37:
+			// 7
+			OnBnClickedButton7();
+			break;
+		case VK_NUMPAD8:
+			// 8
+			OnBnClickedButton8();
+			break;
+		case VK_NUMPAD9:
+			// 9
+			OnBnClickedButton9();
+			break;
+		}
+	}
+
+	UpdateData(false);
+	return CDialog::PreTranslateMessage(pMsg);
+}
+
 void CMFCApplication6Dlg::OnSysCommand(UINT nID, LPARAM lParam)
 {
 	if ((nID & 0xFFF0) == IDM_ABOUTBOX)
