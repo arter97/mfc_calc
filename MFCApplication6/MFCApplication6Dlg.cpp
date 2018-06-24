@@ -118,6 +118,41 @@ BOOL CMFCApplication6Dlg::OnInitDialog()
 	return TRUE; 
 }
 
+CString prev_m_input = _T("");
+void CMFCApplication6Dlg::setFontSize(int font_size) {
+	CFont font;
+	font.CreatePointFont(font_size, _T("Malgun Gothic"));
+
+	GetDlgItem(IDC_EDIT1)->SetFont(&font);
+	font.Detach();
+
+	UpdateData(false);
+
+	return;
+}
+int CMFCApplication6Dlg::returnLineCount(int font_size) {
+	setFontSize(font_size);
+
+	return ((CEdit*)GetDlgItem(IDC_EDIT1))->GetLineCount();
+}
+void CMFCApplication6Dlg::__UpdateData(BOOL val) {
+	if (prev_m_input.Compare(m_input)) {
+		// New value is written to m_input
+		static int font_size = 250;
+		if (m_input == "")
+			font_size = 250;
+		
+		for (; font_size >= 90 && returnLineCount(font_size + 5) > 1; font_size--);
+
+		// Be generous and make sure the text fits
+		setFontSize(font_size);
+
+		prev_m_input = m_input;
+	}
+
+	UpdateData(val);
+}
+
 bool shift_key = false;
 BOOL CMFCApplication6Dlg::PreTranslateMessage(MSG *pMsg) {
 	if (pMsg->message == WM_KEYUP) {
@@ -267,7 +302,7 @@ BOOL CMFCApplication6Dlg::PreTranslateMessage(MSG *pMsg) {
 		}
 	}
 
-	UpdateData(false);
+	__UpdateData(false);
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
@@ -327,7 +362,7 @@ void CMFCApplication6Dlg::OnBnClickedButton1()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('1');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 2
@@ -337,7 +372,7 @@ void CMFCApplication6Dlg::OnBnClickedButton2()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('2');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 3
@@ -347,7 +382,7 @@ void CMFCApplication6Dlg::OnBnClickedButton3()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('3');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 4
@@ -357,7 +392,7 @@ void CMFCApplication6Dlg::OnBnClickedButton4()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('4');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 5
@@ -367,7 +402,7 @@ void CMFCApplication6Dlg::OnBnClickedButton5()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('5');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 6
@@ -377,7 +412,7 @@ void CMFCApplication6Dlg::OnBnClickedButton6()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('6');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 7
@@ -387,7 +422,7 @@ void CMFCApplication6Dlg::OnBnClickedButton7()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('7');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 8
@@ -397,7 +432,7 @@ void CMFCApplication6Dlg::OnBnClickedButton8()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('8');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 9
@@ -407,7 +442,7 @@ void CMFCApplication6Dlg::OnBnClickedButton9()
 		m_input = "";
 	eflag = false;
 	m_input.AppendChar('9');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //숫자버튼 0
@@ -417,7 +452,7 @@ void CMFCApplication6Dlg::OnBnClickedButton0()
 		m_input = "0";
 	eflag = false;
 	m_input.AppendChar('0');
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //소수점
@@ -426,7 +461,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonDot()
 	if (!dflag)
 		m_input.AppendChar('.');
 	dflag = true;
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 // Temporal storage for each parenthesis
@@ -454,7 +489,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonC()
 	parenthesis = 0;
 	SetDlgItemText(IDC_STATIC, _T(""));
 
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 // 1글자 지우기
@@ -469,7 +504,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonDel()
 		}
 		m_input.Delete(len - 1, 1);
 	}
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 /***********************************************
@@ -506,7 +541,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonLp()
 	info.Format(_T("%d remaining parenthesis"), parenthesis);
 	SetDlgItemText(IDC_STATIC, info);
 
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //오른쪽 괄호
@@ -538,7 +573,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonRp()
 	eflag = true;
 	dflag = false;
 	
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 
@@ -567,7 +602,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonRoot()
 	eflag = true;
 	dflag = false;
 
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 //2제곱
@@ -596,7 +631,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonSqu()
 	eflag = true;
 	dflag = false;
 
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 
@@ -616,7 +651,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonAdd()
 	m_op = '+';
 	m_input = "";
 	dflag = false;
-	UpdateData(false);
+	__UpdateData(false);
 }
 //뺄셈 연산자 입력
 void CMFCApplication6Dlg::OnBnClickedButtonSub()
@@ -631,7 +666,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonSub()
 	m_op = '-';
 	m_input = "";
 	dflag = false;
-	UpdateData(false);
+	__UpdateData(false);
 }
 //곱셈 연산자 입력
 void CMFCApplication6Dlg::OnBnClickedButtonMul()
@@ -646,7 +681,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonMul()
 	m_op = '*';
 	m_input = "";
 	dflag = false;
-	UpdateData(false);
+	__UpdateData(false);
 }
 //나눗셈 연산자 입력
 void CMFCApplication6Dlg::OnBnClickedButtonDiv()
@@ -661,7 +696,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonDiv()
 	m_op = '/';
 	m_input = "";
 	dflag = false;
-	UpdateData(false);
+	__UpdateData(false);
 }
 //Mod 연산자 입력
 void CMFCApplication6Dlg::OnBnClickedButtonMod()
@@ -676,7 +711,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonMod()
 	m_op = '%';
 	m_input = "";
 	dflag = false;
-	UpdateData(false);
+	__UpdateData(false);
 }
 //n제곱 연산자 입력
 void CMFCApplication6Dlg::OnBnClickedButtonPow()
@@ -691,7 +726,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonPow()
 	m_op = '^';
 	m_input = "";
 	dflag = false;
-	UpdateData(false);
+	__UpdateData(false);
 }
 /**********
   계산
@@ -802,7 +837,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonEqu()
 	eflag = true;
 	dflag = false;
 
-	UpdateData(false);
+	__UpdateData(false);
 }
 
 
