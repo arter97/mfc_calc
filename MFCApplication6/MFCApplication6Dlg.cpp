@@ -479,6 +479,10 @@ void CMFCApplication6Dlg::OnBnClickedButtonDel()
 //¿ÞÂÊ °ýÈ£
 void CMFCApplication6Dlg::OnBnClickedButtonLp()
 {
+	// Assume multiplication if no operator was given prior to opening parenthesis
+	if (m_op == "")
+		OnBnClickedButtonMul();
+
 	// Back up current operation for restoration
 	p_temp[parenthesis] = m_temp;
 	p_op[parenthesis] = m_op;
