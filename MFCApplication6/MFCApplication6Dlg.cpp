@@ -161,9 +161,7 @@ BOOL CMFCApplication6Dlg::PreTranslateMessage(MSG *pMsg) {
 			shift_key = false;
 			break;
 		}
-	}
-	
-	if (pMsg->message == WM_KEYDOWN) {
+	} else if (pMsg->message == WM_KEYDOWN) {
 		switch (pMsg->wParam) {
 		case VK_SHIFT:
 			shift_key = true;
@@ -303,6 +301,10 @@ BOOL CMFCApplication6Dlg::PreTranslateMessage(MSG *pMsg) {
 	}
 
 	__UpdateData(false);
+
+	if (pMsg->message == WM_CHAR)
+		return 0; // Omit keyboard warning beeps
+
 	return CDialog::PreTranslateMessage(pMsg);
 }
 
