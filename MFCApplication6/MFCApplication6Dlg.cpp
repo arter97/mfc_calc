@@ -470,6 +470,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonDot()
 #define PARENTHESIS 100 // Total of 100 parentheses allowed
 CString p_temp[PARENTHESIS];
 CString p_op[PARENTHESIS];
+CString m_op_real = _T("");
 // Current parenthesis index
 int parenthesis = 0;
 
@@ -478,6 +479,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonC()
 {
 	m_input = "";
 	m_op = "";
+	m_op_real = "";
 	m_temp = "";
 	eflag = true;
 	dflag = false;
@@ -517,7 +519,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonDel()
 void CMFCApplication6Dlg::OnBnClickedButtonLp()
 {
 	// Assume multiplication if no operator was given prior to opening parenthesis
-	if (m_op == "")
+	if (m_op == "" && m_op_real != "(")
 		OnBnClickedButtonMul();
 
 	// Back up current operation for restoration
@@ -527,6 +529,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonLp()
 	// Wipe current operation for new parenthesis equation
 	m_temp = "";
 	m_op = "";
+	m_op_real = "(";
 	m_input = "";
 	eflag = true;
 	dflag = false;
@@ -571,6 +574,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonRp()
 	// Restore operation before parenthesis was entered
 	m_temp = p_temp[parenthesis];
 	m_op = p_op[parenthesis];
+	m_op_real = ")";
 
 	eflag = true;
 	dflag = false;
@@ -600,6 +604,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonRoot()
 	char rval[100];
 	sprintf(rval, "%lf", res);
 	m_input = rval;				//결과 출력
+	m_op_real = "root";
 
 	eflag = true;
 	dflag = false;
@@ -629,6 +634,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonSqu()
 	char rval[100];
 	sprintf(rval, "%lf", res);
 	m_input = rval;				//결과 출력
+	m_op_real = "square";
 
 	eflag = true;
 	dflag = false;
@@ -651,6 +657,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonAdd()
 	}
 	else m_temp = m_input;
 	m_op = '+';
+	m_op_real = "+";
 	m_input = "";
 	dflag = false;
 	__UpdateData(false);
@@ -666,6 +673,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonSub()
 	}
 	else m_temp = m_input;
 	m_op = '-';
+	m_op_real = "-";
 	m_input = "";
 	dflag = false;
 	__UpdateData(false);
@@ -681,6 +689,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonMul()
 	}
 	else m_temp = m_input;
 	m_op = '*';
+	m_op_real = "*";
 	m_input = "";
 	dflag = false;
 	__UpdateData(false);
@@ -696,6 +705,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonDiv()
 	}
 	else m_temp = m_input;
 	m_op = '/';
+	m_op_real = "/";
 	m_input = "";
 	dflag = false;
 	__UpdateData(false);
@@ -711,6 +721,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonMod()
 	}
 	else m_temp = m_input;
 	m_op = '%';
+	m_op_real = "%";
 	m_input = "";
 	dflag = false;
 	__UpdateData(false);
@@ -726,6 +737,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonPow()
 	}
 	else m_temp = m_input;
 	m_op = '^';
+	m_op_real = "^";
 	m_input = "";
 	dflag = false;
 	__UpdateData(false);
@@ -836,6 +848,7 @@ void CMFCApplication6Dlg::OnBnClickedButtonEqu()
 
 	m_temp = "";
 	m_op = "";
+	m_op_real = "=";
 	eflag = true;
 	dflag = false;
 
